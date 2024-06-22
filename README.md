@@ -73,55 +73,94 @@ The data is anonymized as well, as we do not have any accessed to the identifyin
 ## Step 3: Process
 
 I am using R as my primary tool of data analysis, as the dataset is rather large and I want to have the ease of creating visualisations as well. 
-I am using Microsoft Excel first to do a quick parse of the datasets to spot any issues that I need to handle.
 
 ### 3.1: Files Chosen:
 
-For a more logical and convenient timeframe, I will select the datasets that are by the hour or by the day. All other datasets involving seconds or minutes would not be enough to provide a macro view of any interesting relationships / trends.
+For a more logical and convenient timeframe, I will select the datasets that are only by the day. All other datasets involving seconds or minutes would not be enough to provide a macro view of any interesting relationships / trends.
 
-Hence, I have chosen the following 9 datasets:
+Hence, I have chosen the following 6 datasets:
 
 1. dailyActivity_merged.csv
 2. dailyCalories_merged.csv
 3. dailyIntensities_merged.csv
 4. dailySteps_merged.csv
-5. hourlyCalories_merged.csv
-6. hourlyIntensities_merged.csv
-7. hourlySteps_merged.csv
-8. sleepDay_merged.csv
-9. weightLogInfo_merged.csv
+5. sleepDay_merged.csv
+6. weightLogInfo_merged.csv
     
 ---
 
-### 3.2: Quick Parse
+<!-- ### 3.2: Quick Parse
 * Removed 3 duplicate rows found in sleepDay_merged.csv. 
 * All other datasets had no duplicate rows nor whitespaces that needed trimming.
-* For weightLogInfo_merged.csv, there were a total of 65 blank cells in the 'Fat' column. I decided to drop the column as only it only has 2 non-blank values.
+* For weightLogInfo_merged.csv, there were a total of 65 blank cells in the 'Fat' column. I decided to drop the column as only it only has 2 non-blank values. -->
 
-### 3.3 Transform & Explore
+### 3.3 Data Set Up and Cleaning
 1. Load the tidyverse packages
 
 ```
 library(tidyverse)
-require(forcats)
-library(openxlsx)
+library(here)
+library(lubridate)
+library(janitor)
+library(skimr)
 ```
 
 2. Load files
    
 ```
-activities <- read_csv("dailyActivity_merged.csv")
-calories <- read_csv("dailyCalories_merged.csv")
-intensities <- read_csv("dailyIntensities_merged.csv")
-steps <- read_csv("dailySteps_merged.csv")
-sleeps <- read_csv("sleepDay_merged.csv")
-weights <- read_csv("weightLogInfo_merged.csv")
-```
-   
+    activities <- read_csv("dailyActivity_merged.csv")
+    calories <- read_csv("dailyCalories_merged.csv")
+    intensities <- read_csv("dailyIntensities_merged.csv")
+    steps <- read_csv("dailySteps_merged.csv")
+    sleeps <- read_csv("sleepDay_merged.csv")
+    weights <- read_csv("weightLogInfo_merged.csv")
 
-4. Check to see if the data has been loaded correctly
-5. Convert the Id field to character data type
-6. Rename ActivityDate, SleepDay, and Date to convert to date data type
+```
+
+3. Check if data has been loaded
+
+```
+    head(activities)
+    head(calories)
+    head(intensities)
+    head(steps)
+    head(sleeps)
+    head(weights)
+```
+
+4. Check structure of data sets
+
+```
+    str(activities)
+    str(calories)
+    str(intensities)
+    str(steps)
+    str(sleeps)
+    str(weights)
+```
+
+6. Cleaning and Formatting
+
+Now I will check the unique users per tibble
+
+```
+n_unique(activities$Id)
+n_unique(calories$Id)
+n_unique(intensities$Id)
+n_unique(steps$Id)
+n_unique(sleeps$Id)
+n_unique(weights$Id)
+```
+
+From the result, I can see that there are 33 unique users per tibble, except for sleeps (24) and weights (8).
+I will drop the weights dataset as it is too small to make appropriate conclusions representative of the population.
+
+Even though the sleeps dataset is still less than 30, which is the recommended minimum sample size, in this case, 
+I feel like 24 is a number that is relatively close enough to 33, which is the maximum sample size out of all the 
+datasets. Furthermore, I believe that the sleeps dataset provides useful insights about participants' sleep schedules which we may 
+take advantage of in our marketing strategy.
+
+
 
 
 
