@@ -1,5 +1,4 @@
 # How Can a Wellness Technology Company Play It Smart?
-## Capstone Project for Google Data Analytics Specialisation
 
 ## Background:
 Bellabeat is a wellness tech company that empowers women through data-driven insights and innovative products. Founded in 2013, Bellabeat offers smart devices like fitness trackers and health monitors to help women improve their overall well-being with personalized recommendations.
